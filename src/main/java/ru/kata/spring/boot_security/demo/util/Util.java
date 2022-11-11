@@ -17,13 +17,12 @@ public class Util {
 
     private final RoleService roleService;
     private final UsersService usersService;
-    final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public Util(RoleService roleService, UsersService usersService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public Util(RoleService roleService, UsersService usersService) {
         this.roleService = roleService;
         this.usersService = usersService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+
     }
 
     @PostConstruct

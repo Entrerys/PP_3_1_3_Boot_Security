@@ -21,8 +21,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class UsersServiceImpl implements UsersService, UserDetailsService {
-
-    Role roleUser = new Role("ROLE_USER");
     private final UsersDao usersdao;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
