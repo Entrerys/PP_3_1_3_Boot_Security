@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add User</title>
+    <title>Registration</title>
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/admin/createNew}" th:object="${user}">
+<form th:method="POST" th:action="@{/registration}" th:object="${user}">
     <label for="username">Enter username</label>
     <input type="text" th:field="*{username}" id="username"/>
     <div style="color:skyblue" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
@@ -20,17 +20,15 @@
     <input type="password" th:field="*{password}" id="password"/>
     <div style="color:skyblue" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
     <br/>
-<!--    <label for="role">Choose users Role</label>-->
-<!--    <input type="text" th:field="*{roles}" id="role"/>-->
-<!--    <div style="color:skyblue" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">Roles error</div>-->
+    <!--  <label for="role">Enter role</label>-->
+    <!--  <input type="text" th:field="*{roles}" id="role"/>-->
+    <!--  <div style="color:skyblue" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">Roles error</div>-->
     <br/>
-    <input type="submit" value="Create"/>
+    <input type="submit" value="Sign in"/>
 </form>
 
 <br>
-<a th:href="@{/admin}">Back</a>
-<br>
-<br>
-<a href="/logout">Logout</a>
+<!--<a th:href="@{/users}">Back</a>-->
+
 </body>
 </html>

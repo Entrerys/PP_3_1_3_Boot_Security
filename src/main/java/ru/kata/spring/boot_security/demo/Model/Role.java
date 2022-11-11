@@ -4,19 +4,21 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "roles")
-public class Role implements GrantedAuthority, UserDetails {
+public class Role implements GrantedAuthority, Serializable {
+
 
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "role_id")
     private int id;
 
@@ -35,6 +37,15 @@ public class Role implements GrantedAuthority, UserDetails {
 
     }
 
+    public Role(String name) {
+        this.name = name;
+    }
+
+    public Role(List<User> users, String name) {
+        this.users = users;
+        this.name = name;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -45,43 +56,7 @@ public class Role implements GrantedAuthority, UserDetails {
 
     @Override
     public String getAuthority() {
-        return null;
-    }
-
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return getPassword();
-    }
-
-    @Override
-    public String getUsername() {
-        return getUsername();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+        return getName();
     }
 
     @Override

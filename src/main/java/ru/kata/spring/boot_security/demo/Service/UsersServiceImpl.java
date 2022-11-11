@@ -14,16 +14,18 @@ import ru.kata.spring.boot_security.demo.Model.User;
 
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UsersServiceImpl implements UsersService, UserDetailsService{
+public class UsersServiceImpl implements UsersService, UserDetailsService {
 
+    Role roleUser = new Role("ROLE_USER");
     private final UsersDao usersdao;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public UsersServiceImpl(UsersDao usersDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -34,6 +36,8 @@ public class UsersServiceImpl implements UsersService, UserDetailsService{
     @Transactional
     @Override
     public void saveUser(User user) {
+        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
         usersdao.saveUser(user);
     }
 
@@ -59,33 +63,26 @@ public class UsersServiceImpl implements UsersService, UserDetailsService{
     }
 
     @Override
-    public User getUserByUsername( String username){
+    public User getUserByUsername(String username) {
         return usersdao.getUserByUsername(username);
     }
-
 
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = usersdao.getUserByUsername(username);
-        if(user == null){
-            throw new UsernameNotFoundException("ex");
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
         }
-        return user;
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+                mapRolesToAuthorities(user.getRoles()));
 
-//        User user = getUserByUsername(username);
-//        if(user == null){
-//            throw new UsernameNotFoundException(String.format("User '%s' not found",username));
-//        }
-//
-//        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),
-//                mapRolesToAuthorities(user.getRoles()));
     }
 
-//    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
-//        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getUsername())).collect(Collectors.toList());
-//    }
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
+    }
 
 
 }

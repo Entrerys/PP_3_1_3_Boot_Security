@@ -1,7 +1,6 @@
 package ru.kata.spring.boot_security.demo.Service;
 
 
-
 import ru.kata.spring.boot_security.demo.Model.User;
 
 import java.util.List;
@@ -18,5 +17,5 @@ public interface UsersService {
 
     void removeUserById(int id);
 
-    User getUserByUsername( String username);
+    User getUserByUsername(String username);
 }

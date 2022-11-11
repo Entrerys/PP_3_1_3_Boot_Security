@@ -4,73 +4,58 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.Model.Role;
 import ru.kata.spring.boot_security.demo.Model.User;
+import ru.kata.spring.boot_security.demo.Service.RoleService;
 import ru.kata.spring.boot_security.demo.Service.UsersService;
 
+
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping()
 public class UsersController {
 
     private final UsersService usersService;
 
+
     @Autowired
-    public UsersController(UsersService usersService) {
+    public UsersController(UsersService usersService, RoleService roleService) {
+
         this.usersService = usersService;
+
     }
 
+    @GetMapping("/registration")
+    public String registrationPage(@ModelAttribute("user") User user) {
 
-    @GetMapping()
-    public String getAllUsers(Model model, Principal principal) {
-        model.addAttribute("users", usersService.getAllUsers());
-        principal.getName();
-        return "users";
+        return "registration";
     }
 
-    @GetMapping("/{id}")
-    public String getUserById(@PathVariable("id") int id, Model model) {
-        model.addAttribute("user", usersService.getUserById(id));
-        return "show";
-    }
-
-
-    @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user) {
-        return "new";
-    }
-
-    @PostMapping()
-    public String addUser(@ModelAttribute("user") User user) {
+    @PostMapping("/registration")
+    public String performRegistration(@ModelAttribute("user") User user) {
+        Role role = new Role("ROLE_USER");
+        List<Role> roleList = new ArrayList<>();
+        roleList.add(role);
         usersService.saveUser(user);
-        return "redirect:/users";
+
+        return "redirect:/login";
     }
 
-    @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("user", usersService.getUserById(id));
-        return "edit";
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
     }
 
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") int id) {
-        usersService.updateUser(id, user);
-        return "redirect:/users";
-    }
-
-    @DeleteMapping("/{id}")
-    public String removeById(@PathVariable("id") int id) {
-        usersService.removeUserById(id);
-        return "redirect:/users";
-    }
-
-    @GetMapping("/authenticated")
-    public String pageFoCheck(Principal principal){
+    @GetMapping("/user")
+    public String getUserPage(Model model, Principal principal) {
+        model.addAttribute("user", usersService.getUserByUsername(principal.getName()));
         User user = usersService.getUserByUsername(principal.getName());
-
-        return "new";
+        model.addAttribute("user", user);
+        return "/user";
     }
-
 
 }
