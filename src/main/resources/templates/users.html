@@ -8,7 +8,7 @@
 <h1>Welcome to Admin panel</h1>
 <br>
     <div th:each="user : ${users}">
-        <a th:href="@{admin/users/{id}(id=${user.getId()})}" th:text="${user.getUsername() + '  ' + user.getName() + '  ' +
+        <a th:href="@{admin/{id}(id=${user.getId()})}" th:text="${user.getUsername() + '  ' + user.getName() + '  ' +
         user.getNickname()}" >user</a>
     </div>
     <br/>

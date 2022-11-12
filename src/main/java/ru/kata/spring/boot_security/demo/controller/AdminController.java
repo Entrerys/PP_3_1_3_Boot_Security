@@ -21,7 +21,6 @@ public class AdminController {
 
     @Autowired
     public AdminController(UsersService usersService, RoleService roleService) {
-
         this.usersService = usersService;
         this.roleService = roleService;
     }
@@ -33,7 +32,7 @@ public class AdminController {
         return "users";
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public String getUserById(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", usersService.getUserById(id));
         return "show";
@@ -53,14 +52,15 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/{id}/edit")
+    @GetMapping(value ="/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("user", usersService.getUserById(id));
         return "edit";
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping(value ="/{id}")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") int id) {
+        user.setId(id);
         usersService.updateUser(id, user);
         return "redirect:/admin";
     }

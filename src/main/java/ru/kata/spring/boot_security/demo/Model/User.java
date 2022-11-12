@@ -66,6 +66,10 @@ public class User implements Serializable, UserDetails {
         this.name = name;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
