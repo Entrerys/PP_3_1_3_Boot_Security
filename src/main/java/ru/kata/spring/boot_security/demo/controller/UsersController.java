@@ -21,17 +21,13 @@ public class UsersController {
 
     private final UsersService usersService;
 
-
     @Autowired
     public UsersController(UsersService usersService, RoleService roleService) {
-
         this.usersService = usersService;
-
     }
 
     @GetMapping("/registration")
     public String registrationPage(@ModelAttribute("user") User user) {
-
         return "registration";
     }
 
@@ -41,7 +37,6 @@ public class UsersController {
         List<Role> roleList = new ArrayList<>();
         roleList.add(role);
         usersService.saveUser(user);
-
         return "redirect:/login";
     }
 

@@ -7,7 +7,6 @@ import ru.kata.spring.boot_security.demo.Model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -16,7 +15,7 @@ public class UsersDaoImpl implements UsersDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Transactional
+
     @Override
     public void saveUser(User user) {
         entityManager.persist(user);
@@ -38,7 +37,7 @@ public class UsersDaoImpl implements UsersDao {
         return entityManager.find(User.class, id);
     }
 
-    @Transactional
+
     @Override
     public void updateUser(int id, User user) {
         entityManager.merge(user);

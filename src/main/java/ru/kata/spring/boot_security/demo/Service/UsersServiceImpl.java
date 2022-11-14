@@ -21,8 +21,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class UsersServiceImpl implements UsersService, UserDetailsService {
-    private final UsersDao usersdao;
 
+    private final UsersDao usersdao;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired

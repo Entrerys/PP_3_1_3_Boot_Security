@@ -52,13 +52,13 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping(value ="/{id}/edit")
+    @GetMapping(value = "/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("user", usersService.getUserById(id));
         return "edit";
     }
 
-    @PatchMapping(value ="/{id}")
+    @PatchMapping(value = "/{id}")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") int id) {
         user.setId(id);
         usersService.updateUser(id, user);

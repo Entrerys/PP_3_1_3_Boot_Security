@@ -20,9 +20,7 @@
     <input type="password" th:field="*{password}" id="password"/>
     <div style="color:skyblue" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
     <br/>
-<!--    <label for="role">Choose users Role</label>-->
-<!--    <input type="text" th:field="*{roles}" id="role"/>-->
-<!--    <div style="color:skyblue" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">Roles error</div>-->
+
     <br/>
     <input type="submit" value="Create"/>
 </form>

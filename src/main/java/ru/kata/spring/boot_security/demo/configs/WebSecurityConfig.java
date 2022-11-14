@@ -17,6 +17,7 @@ import ru.kata.spring.boot_security.demo.Service.UsersServiceImpl;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
     private final SuccessUserHandler successUserHandler;
     private final UserDetailsService usersService;
 
@@ -35,7 +36,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //Конфигурация авторизации
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //Отключает защиту
         http
                 .authorizeRequests()
                 .antMatchers("/login", "/registration", "/error").permitAll()
@@ -55,8 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
-        return new
-                BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -64,7 +63,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(usersService);
-
         return daoAuthenticationProvider;
     }
 
